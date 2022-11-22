@@ -52,8 +52,17 @@ fi
 
 #Disable unsupported services
 echo "urlParams['db'] = '0'; //dropbox" >> $CATALINA_HOME/webapps/draw/js/PreConfig.js
-echo "urlParams['gh'] = '0'; //github" >> $CATALINA_HOME/webapps/draw/js/PreConfig.js
+#echo "urlParams['gh'] = '1'; //github" >> $CATALINA_HOME/webapps/draw/js/PreConfig.js
 echo "urlParams['tr'] = '0'; //trello" >> $CATALINA_HOME/webapps/draw/js/PreConfig.js
+echo "urlParams['browser'] = '1'; //browser" >> $CATALINA_HOME/webapps/draw/js/PreConfig.js
+
+if [[ -z "${DRAWIO_GITHUB_CLIENT_ID}" ]]; then
+    echo "urlParams['gh'] = '0'; //github"  >> $CATALINA_HOME/webapps/draw/js/PreConfig.js
+else
+    echo "urlParams['gh'] = '1'; //github"  >> $CATALINA_HOME/webapps/draw/js/PreConfig.js
+    echo -n "${DRAWIO_GITHUB_CLIENT_ID}" > $CATALINA_HOME/webapps/draw/WEB-INF/github_client_id
+    echo -n "${DRAWIO_GITHUB_CLIENT_SECRET}" > $CATALINA_HOME/webapps/draw/WEB-INF/github_client_secret   
+fi
 
 #Google Drive 
 if [[ -z "${DRAWIO_GOOGLE_CLIENT_ID}" ]]; then

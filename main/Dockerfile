@@ -1,18 +1,3 @@
-FROM openjdk:11-jdk-slim AS build
-
-RUN apt-get update -y && \
-# this solves some weird issue with openjdk-11-jdk-headless
-# https://github.com/nextcloud/docker/issues/380
-    mkdir -p /usr/share/man/man1 && \
-    apt-get install -y \
-        ant \
-        git
-
-RUN cd /tmp && \
-    git clone --depth 1 https://github.com/jgraph/drawio.git && \
-    cd /tmp/drawio/etc/build/ && \
-    ant war
-
 FROM tomcat:9-jre11
 
 LABEL maintainer="JGraph Ltd"
@@ -30,7 +15,9 @@ RUN apt-get update -y && \
     apt-get clean && \
     rm -r /var/lib/apt/lists/*
 
-COPY --from=build /tmp/drawio/build/draw.war /tmp
+ARG RELEASE_ARTIFACT=./artifact/draw.war
+
+COPY ${WAR_LOCAL_PATH} /tmp
 
 # Extract draw.io war & Update server.xml to set Draw.io webapp to root
 RUN mkdir -p $CATALINA_HOME/webapps/draw && \
