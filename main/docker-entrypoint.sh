@@ -56,12 +56,20 @@ echo "urlParams['db'] = '0'; //dropbox" >> $CATALINA_HOME/webapps/draw/js/PreCon
 echo "urlParams['tr'] = '0'; //trello" >> $CATALINA_HOME/webapps/draw/js/PreConfig.js
 echo "urlParams['browser'] = '1'; //browser" >> $CATALINA_HOME/webapps/draw/js/PreConfig.js
 
+# github配置
 if [[ -z "${DRAWIO_GITHUB_CLIENT_ID}" ]]; then
     echo "urlParams['gh'] = '0'; //github"  >> $CATALINA_HOME/webapps/draw/js/PreConfig.js
 else
     echo "urlParams['gh'] = '1'; //github"  >> $CATALINA_HOME/webapps/draw/js/PreConfig.js
     echo -n "${DRAWIO_GITHUB_CLIENT_ID}" > $CATALINA_HOME/webapps/draw/WEB-INF/github_client_id
     echo -n "${DRAWIO_GITHUB_CLIENT_SECRET}" > $CATALINA_HOME/webapps/draw/WEB-INF/github_client_secret   
+fi
+
+#默认语言
+if [[ -z "${DRAWIO_DEFAULT_LANGUAGE}" ]]; then
+    echo "urlParams['lang'] = '${DRAWIO_DEFAULT_LANGUAGE}'; //默认语言"  >> $CATALINA_HOME/webapps/draw/js/PreConfig.js
+else
+    echo "urlParams['lang'] = 'zh'; //默认为中文"  >> $CATALINA_HOME/webapps/draw/js/PreConfig.js
 fi
 
 #Google Drive 
