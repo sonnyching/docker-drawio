@@ -17,7 +17,7 @@ RUN apt-get update -y && \
 
 ARG RELEASE_ARTIFACT=./artifact/draw.war
 
-COPY ${WAR_LOCAL_PATH} /tmp
+COPY ${RELEASE_ARTIFACT} /tmp
 
 # Extract draw.io war & Update server.xml to set Draw.io webapp to root
 RUN mkdir -p $CATALINA_HOME/webapps/draw && \
